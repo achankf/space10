@@ -1,0 +1,24 @@
+WHITESPACE = _{ " " }
+COMMENT = _{ "#" ~ ANY* }
+
+integer = @{ (ASCII_NONZERO_DIGIT ~ ASCII_DIGIT*) }
+
+list_commands = { "list" ~ "commands" }
+list_characters = { "list" ~ "characters" }
+list_settled_zones = { "list" ~ "settled" ~ "zones" }
+get_player = { "get" ~ "player" }
+get_character = { "get" ~ "character" ~ integer }
+
+command = _{
+	| list_commands
+    | list_characters
+    | list_settled_zones
+    | get_player
+    | get_character 
+}
+
+pipeline = _{
+    command ~ ("|" ~ command)*
+}
+
+run_command = _{ SOI ~ pipeline ~ EOI }

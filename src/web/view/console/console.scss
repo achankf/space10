@@ -1,0 +1,68 @@
+.console {
+    background-color: black;
+    color: white;
+    font-family: monospace;
+    display: flex;
+    flex-direction: column;
+
+    .buffer {
+        display: flex;
+        gap: 0.5rem;
+        font-weight: bold;
+    }
+
+    .input-container {
+        input {
+            all: unset;
+            flex: 1;
+            color: white;
+            font-family: monospace;
+        }
+
+        input::selection {
+            background-color: white;
+            color: black;
+        }
+    }
+
+    .message-container {
+        overflow: auto;
+
+        .error-message {
+            display: flex;
+            gap: 0.5rem;
+
+            span {
+                font-style: italic;
+            }
+        }
+    }
+
+    .controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        .left {
+            flex: 1;
+            overflow: hidden;
+
+            .text {
+                text-overflow: ellipsis;
+            }
+        }
+
+        .right {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        &.correct {
+            color: green;
+        }
+
+        &.incorrect {
+            color: red;
+        }
+    }
+}

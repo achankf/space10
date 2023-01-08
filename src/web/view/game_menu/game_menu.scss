@@ -1,0 +1,75 @@
+.game-menu {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+
+    .section {
+        --three-pixels: 0.188rem;
+
+        display: grid;
+        border-left: var(--three-pixels) solid #ddd;
+        margin-bottom: 1rem;
+        padding-left: 6px;
+
+        &:hover {
+            border-left: var(--three-pixels) solid black;
+        }
+
+        & > .title {
+            font-weight: bold;
+            padding: 0.3rem;
+            text-align: center;
+        }
+
+        & > .separator {
+            height: 1px;
+            background-color: black;
+            margin: 0.5rem;
+        }
+
+        & > .nav-item {
+            all: unset;
+            cursor: pointer;
+            display: flex;
+            gap: 0.3rem;
+
+            &.selected > .item-link {
+                background-color: var(--selected-back-color);
+                color: var(--selected-color);
+            }
+
+            button {
+                all: unset;
+            }
+
+            .item-link {
+                display: flex;
+                flex-wrap: nowrap;
+                gap: 0.5rem;
+                padding: 3px;
+                flex: 1;
+                align-items: center;
+            }
+
+            .item-link:hover {
+                background-color: var(--hover-back-color);
+            }
+
+            .item-link:active {
+                background-color: var(--active-back-color);
+            }
+
+            .description {
+                flex: 1;
+                width: 0; /* forces the browser to truncate the text instead of filling up the div with the text */
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+            .star:hover {
+                font-weight: bold;
+            }
+        }
+    }
+}

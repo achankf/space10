@@ -1,0 +1,51 @@
+WHITESPACE = _{ " " | NEWLINE }
+COMMENT = _{ "//" ~ ANY* }
+
+// tokens
+keywords = _{ "if" | "else" | "let" | "fn" | "run"}
+symbol = _{  "{" | "}" | ":" | ";" | "." | "(" | ")" | "=" | "," | "&" | "|" | "!" | "/" | "$" }
+word = _{ (!WHITESPACE ~ !symbol ~ !keywords ~ ANY)+ }
+identifier = @{ word }
+integer = @{ (ASCII_NONZERO_DIGIT ~ ASCII_DIGIT*) }
+float = @{ ASCII_DIGIT+ ~ ("." ~ ASCII_DIGIT+) }
+number = _{ float | integer }
+quote = _{ "\"" }
+string = { quote ~ (!quote ~ ANY)* ~ quote }
+composite_function = { identifier ~ ("." ~ (identifier | composite_function))* | "(" ~ identifier ~ ("." ~ (identifier | composite_function))* ~ ")" }
+value = _{ "true" | "false" | number | string | identifier }
+
+// type tokens
+primitive_type = { "bool" | "String" | "integer" | "float" }
+type = @{ primitive_type | identifier }
+
+// function application
+application_args = { expr+ }
+application = { composite_function ~ application_args* } // application can be partial
+
+// expressions
+complex_expr = _{ if_expr | application }
+expr = _{ complex_expr | "(" ~ complex_expr ~ ")" | value  }
+
+// let binding & blocks
+let_expr = { "let" ~ identifier ~ "=" ~ expr }
+body_term = _{ let_expr | "run" ~ application }
+block_expr = { "{" ~ (body_term ~ ";")* ~ expr ~ "}" }
+
+// boolean statements
+primitive_boolean = { "true" | "false" }
+negative_term = { "!" ~ expr }
+bool_term = { primitive_boolean | expr | negative_term }
+eq_expr = { (bool_term ~ ("==" ~ eq_expr)*) }
+and_expr = { eq_expr ~ ("&&" ~ and_expr)* }
+or_expr = { and_expr ~ ("||" ~ or_expr)* }
+bool_expr = { or_expr }
+if_expr = { "if" ~ bool_expr ~ block_expr ~ "else" ~ block_expr }
+
+// function declaration
+function_arg = { identifier ~ ":" ~ type }
+function_args = { function_arg ~ ("," ~ function_arg)* }
+function_declaration = {
+	"fn" ~ identifier ~ "(" ~ function_args* ~ ")" ~ "->" ~ type ~ block_expr
+}
+
+script = { SOI ~ function_declaration* ~ EOI }

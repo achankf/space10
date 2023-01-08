@@ -1,0 +1,26 @@
+fn take_one() -> number {
+  let a = print . get_player. take_you "a45s asdf你好" sfg shs hs (if true {0} else {1});
+  let a = (print . get_player. take_you) "a45s asdf你好" sfg shs hs (if true {0} else {1});
+  let a = (print . get_player) take_you "a45s asdf你好" sfg shs hs (if true {0} else {1});
+
+  let a = if ad {
+    let asdf = "Hello";
+    fdfsssssss
+  } else {
+    run print asdf;
+    123
+  };
+
+  let a = 123.234;
+  let f= ( print . get_player. ( me . you. they ) . take .  you . a3 );
+  let f=  print . get_player. ( me . you. they ) . take .  you . a3;
+
+
+  let a = (a . d);
+
+  f asdf 123
+}
+
+fn divide() -> integer {
+  234
+}

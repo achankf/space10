@@ -1,0 +1,31 @@
+WHITESPACE = _{ " " }
+COMMENT = _{ "//" ~ ANY* }
+
+integer = @{ (ASCII_NONZERO_DIGIT ~ ASCII_DIGIT*) }
+symbol = _{  "|" | ">" | "$" }
+word = _{ (!WHITESPACE ~ !symbol ~ ANY)+ }
+identifier = @{ "$" ~ word }
+
+list_commands = { "list" ~ "commands" }
+list_characters = { "list" ~ "characters" }
+player = { "player" }
+character = { "character" ~ integer }
+entity = _{ player | character }
+get_command = { "get" ~ entity }
+
+command = _{
+	| list_commands
+    | list_characters
+    | get_command
+}
+
+
+// e.g. get player | get character 123 | get player > $hihi // 546
+forward_command = { command ~ ("|" ~ command)* ~ (">" ~ identifier)? }
+
+// e.g. $hihi < get player < get character 123 < get player // 546
+backward_command = { identifier ~ ("<" ~ command)+ }
+
+pipeline = _{ forward_command | backward_command }
+
+run_command = _{ SOI ~ pipeline ~ EOI }

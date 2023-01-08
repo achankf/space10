@@ -1,0 +1,37 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  user-select: none;
+
+  --hover-back-color: gray;
+  --active-back-color: #565656;
+  --selected-back-color: black;
+  --selected-color: white;
+}
+
+.emoji {
+  font-family: "Noto Emoji", sans-serif;
+}
+
+@mixin link {
+  cursor: pointer;
+  color: #0000ee;
+}
+
+button.link {
+  all: unset;
+  @include link;
+}
+
+.link {
+  @include link;
+
+  :hover {
+    text-decoration: underline;
+  }
+}
